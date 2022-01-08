@@ -10,24 +10,23 @@
  */
 class Solution {
 
-    ListNode dummy;
-    int count;
-    Map<Integer,Integer> valMap;
+    ListNode head;
+    Random rand = null;
     public Solution(ListNode head) {
-        ListNode temp = head,dummy=head;
-        count = 0;
-        valMap = new HashMap<>();
-        while(temp!=null){
-            valMap.put(count,temp.val);
-            count+=1;
-            temp = temp.next;
-        }
+        this.head = head;
+        rand = new Random();
     }
     
     public int getRandom() {
-        Random random = new Random();
-        int randPos = random.nextInt(count);
-        return valMap.get(randPos);
+        int res = -1;
+        ListNode dummy = head;
+        for(int i=1;dummy!=null;i+=1){
+            int randInt = rand.nextInt(i);
+            if(randInt==i-1)
+                res = dummy.val;
+            dummy = dummy.next;
+        }
+        return res;
     }
 }
 
