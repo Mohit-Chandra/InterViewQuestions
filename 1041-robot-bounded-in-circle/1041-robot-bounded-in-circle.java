@@ -1,32 +1,18 @@
 class Solution {
-    int pos[];
-    int dir[];
     public boolean isRobotBounded(String instructions) {
-       pos= new int[]{0,0};
-       dir = new int[]{0,1};
-       for(int i=0;i<4;i+=1){
-           move(instructions);
-       }
-        if(pos[0] == 0 && pos[1] == 0)
-            return true;
-        return false;
-    }
-    
-    public void move(String str){
-       for(char ch : str.toCharArray()){
+      int dir[][] = {{0,1}, {-1, 0}, {0, -1}, {1,0}};
+      int x=0,y=0,index=0;
+      for(char ch : instructions.toCharArray()){
            if(ch == 'G')
            {
-               pos[0]+=dir[0];
-               pos[1]+=dir[1];
+               x+=dir[index][0];
+               y+=dir[index][1];
            }else if(ch == 'L'){
-               int temp = dir[0];
-               dir[0] = -1 * dir[1];
-               dir[1] = temp;
+               index = (index+1)%4;
            }else{
-              int temp = dir[0];
-               dir[0] = dir[1];
-               dir[1] = -1 * temp;
+              index = (index+3)%4;
            }
        }
+        return (x==0 && y== 0) || (index!=0);
     }
 }
