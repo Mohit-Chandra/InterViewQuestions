@@ -1,16 +1,17 @@
+class TriBo{
+    private int n = 38;
+    public int[] nums = new int[n];
+    TriBo(){
+        nums[1] = 1;
+        nums[2] = 1;
+        for(int i=3;i<n;i+=1)
+            nums[i] = nums[i-1]+nums[i-2]+nums[i-3];
+    }
+}
+
 class Solution {
+    public static TriBo tribo = new TriBo();
     public int tribonacci(int n) {
-        int dp[] = new int[n+1];
-        if(n==0)
-            return 0;
-        else if(n>=1 && n<=2)
-            return 1;
-        dp[0] = 0;
-        dp[1] = 1;
-        dp[2] = 1;
-        for(int i=3;i<=n;i+=1){
-            dp[i] = dp[i-1]+dp[i-2]+dp[i-3];
-        }
-        return dp[n];
+        return tribo.nums[n];
     }
 }
