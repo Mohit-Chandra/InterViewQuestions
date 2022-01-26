@@ -14,21 +14,29 @@
  * }
  */
 class Solution {
-    List<Integer> res;
     public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
-         res = new ArrayList<>();
-        inOrder(root1);
-        inOrder(root2);
-        Collections.sort(res);
+        List<Integer> res = new ArrayList<>();
+        ArrayDeque<TreeNode> st1 = new ArrayDeque<>();
+        ArrayDeque<TreeNode> st2 = new ArrayDeque<>();
+        while(root1!=null || root2!=null || !st1.isEmpty() || !st2.isEmpty()){
+            while(root1!=null){
+                st1.push(root1);
+                root1 = root1.left;
+            }
+            while(root2!=null){
+                st2.push(root2);
+                root2 = root2.left;
+            }
+            if(st2.isEmpty() || !st1.isEmpty() && st1.getFirst().val <= st2.getFirst().val){
+                root1 = st1.pop();
+                res.add(root1.val);
+                root1 = root1.right;
+            }else{
+                root2 = st2.pop();
+                res.add(root2.val);
+                root2 = root2.right;
+            }
+        }
         return res;
-    }
-    
-    public void inOrder(TreeNode root){
-        if(root == null)
-            return;
-        inOrder(root.left);
-        if(root!=null)
-            res.add(root.val);
-        inOrder(root.right);
     }
 }
