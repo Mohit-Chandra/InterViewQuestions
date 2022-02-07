@@ -42,14 +42,18 @@ class Solution
             hMap.put(curr[i],i);
         }
         int count = 0;
+        boolean visited[] = new boolean[n];
         for(int i=0;i<n;i+=1){
-            while(hMap.get(nums[i])!=i){
-                count+=1;
-                int temp = nums[i];
-                int pos = hMap.get(nums[i]);
-                nums[i] = nums[pos];
-                nums[pos] = temp;
+            if(visited[i]== true || hMap.get(nums[i]) == i)
+                continue;
+            int clen = 0;
+            int j = i;
+            while(visited[j] == false){
+                visited[j] = true;
+                clen+=1;
+                j = hMap.get(nums[j]);
             }
+            count+=clen-1;
         }
         return count;
     }
