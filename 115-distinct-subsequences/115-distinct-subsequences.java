@@ -1,19 +1,20 @@
 class Solution {
     public int numDistinct(String s, String t) {
         int  ls = s.length(),lt = t.length();
-        int dp[][] = new int[ls+1][lt+1];
-        for(int i=0;i<=ls;i+=1)
-            dp[i][0] = 1;
-        
+        int prev[] = new int[lt+1];
+        prev[0] = 1;
         for(int i=1;i<=ls;i+=1){
+            int curr[] = new int[lt+1];
+            curr[0] = 1;
             for(int j=1;j<=lt;j+=1){
                 if(s.charAt(i-1) == t.charAt(j-1)){
-                    dp[i][j] = dp[i-1][j-1]+dp[i-1][j];
+                    curr[j] = prev[j-1]+prev[j];
                 }else{
-                    dp[i][j] = dp[i-1][j];
+                    curr[j] = prev[j];
                 }
             }
+            prev = curr;
         }
-        return dp[ls][lt];
+        return prev[lt];
     }
 }
