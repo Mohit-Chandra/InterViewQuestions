@@ -43,8 +43,8 @@ class Solution {
         while(pq.size()>0){
             int curr[] = pq.poll();
             int currRow = curr[0],currCol = curr[1], currWt = curr[2];
-            // if(currRow == rowLen-1 && colLen-1 == currCol)
-            //     return currWt;
+            if(currRow == rowLen-1 && colLen-1 == currCol)
+                return currWt;
             for(int dir[] : dirs){
                 int nextRow = currRow+dir[0];
                 int nextCol = currCol+dir[1];
@@ -59,7 +59,7 @@ class Solution {
                 }
             }
         }
-        return dist[rowLen-1][colLen-1];
+        return -1;
        
     }
 }
