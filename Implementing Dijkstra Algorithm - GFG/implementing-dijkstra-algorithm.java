@@ -62,22 +62,36 @@ class Solution
     static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S)
     {
         // Write your code here
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> Integer.compare(a[1],b[1]));
+        TreeSet<int[]> ts = new TreeSet<>((a,b) -> {
+            if(Integer.compare(a[1],b[1]) == 0){
+                return Integer.compare(a[0],b[0]);
+            }
+            else{
+                return Integer.compare(a[1],b[1]);
+             }
+            });
         int dist[] = new int[V];
         Arrays.fill(dist,(int)1e9);
         dist[S] = 0;
-        pq.offer(new int[]{S,0});
         
-        while(pq.size()>0){
-            int curr[] = pq.poll();
-            int  currSrc = curr[0], currDist = curr[1];
-            for(int i=0;i<adj.get(currSrc).size();i++){
-                ArrayList<Integer> nbrList = adj.get(currSrc).get(i);
-                int nbr = nbrList.get(0);
-                int nbrWt =  nbrList.get(1);
-                if(currDist + nbrWt < dist[nbr]){
-                    dist[nbr] = currDist+nbrWt;
-                    pq.add(new int[]{nbr, dist[nbr]});
+        ts.add(new int[]{S,0});
+        while(!ts.isEmpty()){
+            int curr[] = ts.pollFirst();
+            int src = curr[0], wt = curr[1];
+           
+            for(int i=0;i<adj.get(src).size();i++){
+                ArrayList<Integer> nbrList = adj.get(src).get(i);
+                int nbr = nbrList.get(0), edgeWt = nbrList.get(1);
+                if(wt + edgeWt < dist[nbr]){
+                    // erase if it existed with not infinity value
+                    // meaning someone has reached
+                    if(dist[nbr]!=(int)1e9){
+                        ts.remove(new int[]{nbr, dist[nbr]});
+                    }
+                    dist[nbr] = wt+edgeWt;
+                     //System.out.println(nbr+" "+dist[nbr]);
+                    ts.add(new int[]{nbr, dist[nbr]});
+                    
                 }
             }
         }
