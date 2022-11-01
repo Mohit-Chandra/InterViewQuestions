@@ -49,10 +49,10 @@ class Solution {
             int steps = curr[1];
             for(int i=0;i<n;i++){
                 int num = (nextStart*arr[i])%mod;
+                 if(num == end)
+                        return steps+1;
                 if(dist[num] == 0){
                     dist[num] = 1;
-                    if(num == end)
-                        return steps+1;
                     q.add(new int[]{num, steps+1});
                 }
             }
