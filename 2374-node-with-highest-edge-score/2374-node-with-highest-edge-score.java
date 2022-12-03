@@ -1,15 +1,20 @@
 class Solution {
     public int edgeScore(int[] edges) {
-        int n = edges.length;
-        long inDegree[] = new long[n];
-        for(int i=0;i<n;i+=1)
-            inDegree[edges[i]]+=i;
-        
-        int maxIndex = 0;
-        for(int i=0;i<n;i+=1){
-            if(inDegree[i] > inDegree[maxIndex])
-                maxIndex = i;
+        if(edges == null || edges.length==0)
+            return -1;
+        Map<Integer,Long> freqMap = new TreeMap<>();
+        for(int i=0;i<edges.length;i+=1){
+            freqMap.put(edges[i],freqMap.getOrDefault(edges[i],0L)+i);
         }
-        return maxIndex;
+        List<Long> freqList = new ArrayList<>(freqMap.values());
+        Collections.sort(freqList);
+        long maxEle = freqList.get(freqList.size()-1);
+        for(Map.Entry<Integer,Long> entry : freqMap.entrySet()){
+            int currKey = entry.getKey();
+            long currVal = entry.getValue();
+            if(currVal == maxEle)
+                return currKey;
+        }
+        return -1;
     }
 }
