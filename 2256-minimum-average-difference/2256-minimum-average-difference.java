@@ -1,27 +1,24 @@
 class Solution {
     public int minimumAverageDifference(int[] nums) {
         int n = nums.length;
-        long prefix[] = new long[n+1];
-        long suffix[] = new long[n+1];
-        int minAvgDiff = (int)1e9;
+        long totalSum = 0, leftSum = 0;
         for(int i=0;i<n;i+=1){
-            prefix[i+1] = prefix[i]+nums[i];
+            totalSum+=nums[i];
         }
-        for(int i = n-1;i>=0;i-=1){
-            suffix[i] = suffix[i+1]+nums[i];
-        }
-        int res = -1;
+        int minAvgDiff = (int)1e9, res = -1;
         for(int i=0;i<n;i+=1){
-            long leftPartAvg = prefix[i+1];
+            leftSum+=nums[i];
+            long leftPartAvg = leftSum;
             leftPartAvg/=(i+1);
             
-            long rightPartAvg = suffix[i+1];
-            if(i!=n-1){
+            long rightPartAvg = totalSum - leftSum;
+            if(i!=n-1)
                 rightPartAvg/=(n-i-1);
-            }
-            int currDiffAvg = (int)Math.abs(rightPartAvg-leftPartAvg);
-            if(currDiffAvg < minAvgDiff){
-                minAvgDiff = currDiffAvg;
+            
+            int currAvgDiff = (int)Math.abs(rightPartAvg - leftPartAvg);
+            if(currAvgDiff < minAvgDiff)
+            {
+                minAvgDiff = currAvgDiff;
                 res = i;
             }
         }
