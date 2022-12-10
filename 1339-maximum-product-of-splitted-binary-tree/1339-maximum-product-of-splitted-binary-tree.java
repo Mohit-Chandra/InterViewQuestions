@@ -14,17 +14,13 @@
  * }
  */
 class Solution {
-    long res = 0;
-    List<Integer> sumList;
+    
+    private long maxProduct = 0;
+    private int totalTreeSum = 0;
     public int maxProduct(TreeNode root) {
-        if(root == null)
-            return 0;
-        sumList = new ArrayList<>();
-        int sumOfTree = recur(root);
-        for(long sum : sumList){
-            res = Math.max(res, sum*(sumOfTree - sum));
-        }
-        return (int)(res%1000000007);
+        this.totalTreeSum = recur(root);
+        findMaxProduct(root);
+        return (int)(maxProduct%1000000007);
     }
     
     public int recur(TreeNode root){
@@ -33,7 +29,17 @@ class Solution {
         int left  = recur(root.left);
         int right = recur(root.right);
         int totalSum = root.val+left+right;
-        sumList.add(totalSum);
+        return totalSum;
+    }
+    
+    private int findMaxProduct(TreeNode root){
+        if(root == null)
+            return 0;
+        int leftSum = findMaxProduct(root.left);
+        int rightSum = findMaxProduct(root.right);
+        int totalSum = leftSum+rightSum+root.val;
+        long totalProduct = (long)totalSum*(totalTreeSum - totalSum);
+        this.maxProduct = Math.max(this.maxProduct,totalProduct);
         return totalSum;
     }
 }
